@@ -1,6 +1,6 @@
 # Northstar Airport Flight Board
 
-A responsive departures board built with React, TypeScript, and Vite. It loads public post data from JSONPlaceholder and maps each record into a deterministic flight record. Use the status controls to filter flights, and “Test failed refresh” to exercise stale-data handling.
+A flight board built with React, TypeScript, and Vite. It fetches posts from JSONPlaceholder and maps them to deterministic flight records. Use the status controls to filter the flight list. The grouping helper organizes flights by terminal.
 
 ## Run locally
 
@@ -12,16 +12,14 @@ npm run dev
 ## Checks
 
 ```sh
-npm test
 npm run build
 npm run lint
 ```
 
 ## Implementation note
 
-- I used AI assistance to draft the UI, data helpers, refresh flow, tests, and this README; I reviewed and integrated the code in the repository.
-- I corrected the initial refresh approach to abort superseded requests and guard state updates with a request sequence, so slower requests cannot overwrite newer data.
-- With more time, I would add browser-level tests for the initial-load, refresh, and stale-data states and verify behavior against a dedicated flight API.
+- 100% of the code is AI generated
+- I clarified the grouping variable name from `currentGroup` to `terminalFlights`, because it holds all flights for a terminal.
 
 ## Original Interview Challenge
 
