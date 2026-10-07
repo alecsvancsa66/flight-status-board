@@ -1,4 +1,5 @@
 export { FlightBoard } from "./components/FlightBoard";
+export { FlightBoardStatus } from "./components/FlightBoardStatus";
 export { FlightRow } from "./components/FlightRow";
 export { getFlights } from "./api/flightApi";
 export { filterFlights } from "./model/filterFlights";

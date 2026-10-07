@@ -2,6 +2,7 @@ import { FlightStatus, STATUS_OPTIONS } from "../model/flight";
 import { groupFlightsByTerminal } from "../model/groupFlights";
 import { useFlightBoard } from "../hooks/useFlightBoard";
 import { FlightRow } from "./FlightRow";
+import { FlightBoardStatus } from "..";
 
 const cellStyle = {
   padding: "12px 16px",
@@ -10,13 +11,31 @@ const cellStyle = {
 };
 
 export function FlightBoard() {
-  const { visibleFlights, selectedStatus, setSelectedStatus } =
-    useFlightBoard();
+  const {
+    visibleFlights,
+    isFirstLoad,
+    isRefreshing,
+    isFailureSimulationEnabled,
+    error,
+    selectedStatus,
+    setSelectedStatus,
+    setFailureSimulation,
+    refreshFlights,
+  } = useFlightBoard();
   const groupedFlights = groupFlightsByTerminal(visibleFlights);
 
   return (
     <main style={{ padding: 24, fontFamily: "sans-serif" }}>
       <h1>Northstar Airport Flight Board</h1>
+
+      <FlightBoardStatus
+        isFirstLoad={isFirstLoad}
+        isRefreshing={isRefreshing}
+        isFailureSimulationEnabled={isFailureSimulationEnabled}
+        error={error}
+        onFailureSimulationChange={setFailureSimulation}
+        onRefresh={refreshFlights}
+      />
 
       <div style={{ margin: "16px 0" }}>
         {[FlightStatus.ALL, ...STATUS_OPTIONS].map((status) => (

@@ -39,7 +39,13 @@ function mapPostToFlight(post: JsonPlaceholderPost): Flight {
   };
 }
 
-export async function getFlights(): Promise<Flight[]> {
+export async function getFlights(simulateFailure = false): Promise<Flight[]> {
+  await new Promise((resolve) => window.setTimeout(resolve, 5000));
+
+  if (simulateFailure) {
+    throw new Error("Simulated flight request failure");
+  }
+
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
 
   if (!response.ok) {
