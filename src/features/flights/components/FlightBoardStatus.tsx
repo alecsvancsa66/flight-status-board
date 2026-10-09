@@ -1,4 +1,5 @@
-type FlightBoardStatusProps = {
+export type FlightBoardStatusProps = {
+  lastSuccessfulUpdate: Date | null;
   isFirstLoad: boolean;
   isRefreshing: boolean;
   isFailureSimulationEnabled: boolean;
@@ -8,6 +9,7 @@ type FlightBoardStatusProps = {
 };
 
 export function FlightBoardStatus({
+  lastSuccessfulUpdate,
   isFirstLoad,
   isRefreshing,
   isFailureSimulationEnabled,
@@ -28,6 +30,14 @@ export function FlightBoardStatus({
           A background refresh is{" "}
           {isRefreshing ? "in progress" : "not in progress"}.
         </p>
+        {lastSuccessfulUpdate && (
+          <p>
+            Last successfully updated:{" "}
+            <time dateTime={lastSuccessfulUpdate.toISOString()}>
+              {lastSuccessfulUpdate.toLocaleString()}
+            </time>
+          </p>
+        )}
         <button
           type="button"
           onClick={() => void onRefresh()}

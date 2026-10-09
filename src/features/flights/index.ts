@@ -1,6 +1,7 @@
 export { FlightBoard } from "./components/FlightBoard";
 export { FlightBoardStatus } from "./components/FlightBoardStatus";
-export { FlightRow } from "./components/FlightRow";
+export { FlightStatusFilters } from "./components/FlightStatusFilters";
+export { TerminalFlightGroup } from "./components/TerminalFlightGroup";
 export { getFlights } from "./api/flightApi";
 export { filterFlights } from "./model/filterFlights";
 export { groupFlightsByTerminal } from "./model/groupFlights";

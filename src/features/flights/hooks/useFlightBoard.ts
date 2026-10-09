@@ -7,27 +7,31 @@ import { filterFlights } from "../model/filterFlights";
 
 export function useFlightBoard() {
   const [flights, setFlights] = useState<Flight[]>([]);
+  const [lastSuccessfulUpdate, setLastSuccessfulUpdate] = useState<Date | null>(
+    null,
+  );
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isFailureSimulationEnabled, setIsFailureSimulationEnabled] =
-    useState(false);
+    useState(false); // make true at the interview for testing fail on the first load
   const [error, setError] = useState<string | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<FlightStatusFilter>(
     FlightStatus.ALL,
   );
   const hasLoadedOnce = useRef(false);
   const requestInProgress = useRef(false);
-  const failureSimulationRef = useRef(false);
+  const failureSimulationRef = useRef(false); // make true at the interview for testing fail on the first load
+  const lastSuccessfulUpdateRef = useRef<Date | null>(null);
 
   const visibleFlights = useMemo(
     () => filterFlights(flights, selectedStatus),
     [flights, selectedStatus],
   );
 
-  const setFailureSimulation = useCallback((enabled: boolean) => {
+  const setFailureSimulation = (enabled: boolean) => {
     failureSimulationRef.current = enabled;
     setIsFailureSimulationEnabled(enabled);
-  }, []);
+  };
 
   const refreshFlights = useCallback(async () => {
     if (requestInProgress.current) {
@@ -40,14 +44,20 @@ export function useFlightBoard() {
       setIsRefreshing(true);
     }
 
-    setError(null);
-
     try {
       const nextFlights = await getFlights(failureSimulationRef.current);
+      const updatedAt = new Date();
       setFlights(nextFlights);
+      lastSuccessfulUpdateRef.current = updatedAt;
+      setLastSuccessfulUpdate(updatedAt);
+      setError(null);
     } catch (err) {
       console.log(err);
-      setError(hasLoadedOnce.current ? "data may be stale" : "Simulated error");
+      setError(
+        lastSuccessfulUpdateRef.current
+          ? "data may be stale"
+          : "Unable to load flight data. No previously loaded data is available.",
+      );
     } finally {
       requestInProgress.current = false;
 
@@ -73,6 +83,7 @@ export function useFlightBoard() {
   return {
     flights,
     visibleFlights,
+    lastSuccessfulUpdate,
     isFirstLoad,
     isRefreshing,
     isFailureSimulationEnabled,
