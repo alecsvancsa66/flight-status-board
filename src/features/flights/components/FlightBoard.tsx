@@ -1,12 +1,11 @@
-import { groupFlightsByTerminal } from "../model/groupFlights";
 import { useFlightBoard } from "../hooks/useFlightBoard";
 import { FlightBoardStatus } from "./FlightBoardStatus";
 import { FlightStatusFilters } from "./FlightStatusFilters";
-import { TerminalFlightGroup } from "./TerminalFlightGroup";
+import { FlightGroup } from "./FlightGroup";
 
 export function FlightBoard() {
   const {
-    visibleFlights,
+    groupedFlights,
     lastSuccessfulUpdate,
     isFirstLoad,
     isRefreshing,
@@ -17,8 +16,6 @@ export function FlightBoard() {
     setFailureSimulation,
     refreshFlights,
   } = useFlightBoard();
-  const groupedFlights = groupFlightsByTerminal(visibleFlights);
-
   return (
     <main style={{ padding: 24, fontFamily: "sans-serif" }}>
       <h1>Northstar Airport Flight Board</h1>
@@ -39,9 +36,9 @@ export function FlightBoard() {
       />
 
       {groupedFlights.map((group) => (
-        <TerminalFlightGroup
-          key={group.terminal}
-          terminal={group.terminal}
+        <FlightGroup
+          key={group.value}
+          value={group.value}
           flights={group.flights}
         />
       ))}

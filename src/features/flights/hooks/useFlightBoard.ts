@@ -4,6 +4,7 @@ import { getFlights } from "../api/flightApi";
 import { FlightStatus } from "../model/flight";
 import type { Flight, FlightStatusFilter } from "../model/flight";
 import { filterFlights } from "../model/filterFlights";
+import { groupFlightsByKey } from "../model/groupFlights";
 
 export function useFlightBoard() {
   const [flights, setFlights] = useState<Flight[]>([]);
@@ -26,6 +27,11 @@ export function useFlightBoard() {
   const visibleFlights = useMemo(
     () => filterFlights(flights, selectedStatus),
     [flights, selectedStatus],
+  );
+
+  const groupedFlights = useMemo(
+    () => groupFlightsByKey(visibleFlights, "terminal"), // todo: not use magic string
+    [visibleFlights],
   );
 
   const setFailureSimulation = (enabled: boolean) => {
@@ -55,7 +61,7 @@ export function useFlightBoard() {
       console.log(err);
       setError(
         lastSuccessfulUpdateRef.current
-          ? "data may be stale"
+          ? "Data may be stale"
           : "Unable to load flight data. No previously loaded data is available.",
       );
     } finally {
@@ -71,18 +77,17 @@ export function useFlightBoard() {
   }, []);
 
   useEffect(() => {
-    const initialRefreshId = setTimeout(() => refreshFlights(), 0);
+    refreshFlights();
     const intervalId = setInterval(() => refreshFlights(), 30000); // set to 500 for interview questions // API delay is 1.5 seconds, so 500ms is enough to test the refresh functionality
 
     return () => {
-      clearTimeout(initialRefreshId);
       clearInterval(intervalId);
     };
   }, [refreshFlights]);
 
   return {
     flights,
-    visibleFlights,
+    groupedFlights,
     lastSuccessfulUpdate,
     isFirstLoad,
     isRefreshing,

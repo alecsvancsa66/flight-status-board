@@ -19,7 +19,8 @@ npm run lint
 ## Implementation note
 
 - 100% of the code is AI generated
-- I clarified the grouping variable name from `currentGroup` to `terminalFlights`, because it holds all flights for a terminal.
+- I corrected the grouping helper made by AI to accept a key parameter, making it straightforward to group flights by other fields. Before it was ok but you had to change more code in many places.
+- With more time, I would use an `AbortController` to cancel an in-flight `getFlights` request when the component unmounts.
 
 ## Original Interview Challenge
 

@@ -24,11 +24,11 @@ export function FlightBoardStatus({
         <p>
           {isFirstLoad
             ? "Data is being loaded for the first time"
-            : "Data is not being loaded for the first time"}
+            : "Data is NOT being loaded for the first time"}
         </p>
         <p>
           A background refresh is{" "}
-          {isRefreshing ? "in progress" : "not in progress"}.
+          {isRefreshing ? "in progress" : "NOT in progress"}.
         </p>
         {lastSuccessfulUpdate && (
           <p>
@@ -40,7 +40,7 @@ export function FlightBoardStatus({
         )}
         <button
           type="button"
-          onClick={() => void onRefresh()}
+          onClick={onRefresh}
           disabled={isFirstLoad || isRefreshing}
         >
           Refresh

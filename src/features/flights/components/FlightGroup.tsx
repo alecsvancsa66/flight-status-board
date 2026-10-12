@@ -1,7 +1,7 @@
 import type { Flight } from "../model/flight";
 
-type TerminalFlightGroupProps = {
-  terminal: string;
+type FlightGroupProps = {
+  value: string;
   flights: Flight[];
 };
 
@@ -11,13 +11,10 @@ const cellStyle = {
   textAlign: "left" as const,
 };
 
-export function TerminalFlightGroup({
-  terminal,
-  flights,
-}: TerminalFlightGroupProps) {
+export function FlightGroup({ value, flights }: FlightGroupProps) {
   return (
     <section style={{ marginBottom: 24 }}>
-      <h2 style={{ margin: "0 0 12px" }}>{terminal}</h2>
+      <h2 style={{ margin: "0 0 12px" }}>{value}</h2>
 
       <table
         style={{
