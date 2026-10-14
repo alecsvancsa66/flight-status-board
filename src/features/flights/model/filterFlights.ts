@@ -1,13 +1,17 @@
 import { FlightStatus } from "./flight";
-import type { Flight, FlightStatusFilter } from "./flight";
+import type { Flight, FlightFilters } from "./flight";
 
 export function filterFlights(
   flights: Flight[],
-  status: FlightStatusFilter,
+  filters: FlightFilters,
 ): Flight[] {
-  if (status === FlightStatus.ALL) {
-    return flights;
-  }
+  return flights.filter((flight) => {
+    const matchesStatus =
+      filters.status === FlightStatus.ALL || flight.status === filters.status;
 
-  return flights.filter((flight) => flight.status === status);
+    const matchesGate =
+      filters.gate === undefined || flight.gate === filters.gate;
+
+    return matchesStatus && matchesGate;
+  });
 }

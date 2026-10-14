@@ -25,3 +25,9 @@ export type Flight = {
   terminal: string;
   departureTime: string;
 };
+
+export type FlightFilters = {
+  status: FlightStatusFilter;
+  gate?: string; // undefined means “any gate”
+  // add any other filters you want to support here
+};

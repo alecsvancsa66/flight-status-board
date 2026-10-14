@@ -25,7 +25,7 @@ export function useFlightBoard() {
   const lastSuccessfulUpdateRef = useRef<Date | null>(null);
 
   const visibleFlights = useMemo(
-    () => filterFlights(flights, selectedStatus),
+    () => filterFlights(flights, { status: selectedStatus }), // add  gate: string if you want to filter by gate as well
     [flights, selectedStatus],
   );
 
