@@ -56,9 +56,10 @@ export function useFlightBoard() {
       setFlights(nextFlights);
       lastSuccessfulUpdateRef.current = updatedAt;
       setLastSuccessfulUpdate(updatedAt);
+      hasLoadedOnce.current = true;
       setError(null);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError(
         lastSuccessfulUpdateRef.current
           ? "Data may be stale"
@@ -67,11 +68,11 @@ export function useFlightBoard() {
     } finally {
       requestInProgress.current = false;
 
-      if (!hasLoadedOnce.current) {
-        hasLoadedOnce.current = true;
+      if (hasLoadedOnce.current) {
         setIsFirstLoad(false);
-      } else {
         setIsRefreshing(false);
+      } else {
+        setIsFirstLoad(false);
       }
     }
   }, []);
