@@ -17,7 +17,7 @@ afterEach(() => {
 it("does not start overlapping requests on the automatic refresh interval", async () => {
   vi.useFakeTimers();
 
-  let resolveFirstRequest!: (flights: Flight[]) => void;
+  let resolveFirstRequest: (flights: Flight[]) => void;
 
   const firstRequest = new Promise<Flight[]>((resolve) => {
     resolveFirstRequest = resolve;
